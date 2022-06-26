@@ -1,2 +1,3 @@
 rootProject.name = 'craft-system'
+include 'recipe'
 

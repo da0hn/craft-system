@@ -1,0 +1,3 @@
+module craft.system.recipe {
+
+}
