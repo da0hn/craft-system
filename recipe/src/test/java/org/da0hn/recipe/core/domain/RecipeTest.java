@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+
 @Tag("unit")
 @DisplayName("Test recipe")
 class RecipeTest {
@@ -19,7 +20,6 @@ class RecipeTest {
       1L,
       "Wooden Sword"
     );
-
     assertNotNull(recipe);
   }
 
@@ -30,13 +30,13 @@ class RecipeTest {
       1L,
       "Wooden Sword"
     );
-
     assertFalse(recipe.hasConstraints());
   }
 
   @Nested
   @DisplayName("Should not create an recipe")
   class ShouldNotCreateRecipeTests {
+
     @Test
     @DisplayName("With null id")
     void test2() {
@@ -84,6 +84,7 @@ class RecipeTest {
         "Recipe name must be not empty"
       );
     }
+
   }
 
 
