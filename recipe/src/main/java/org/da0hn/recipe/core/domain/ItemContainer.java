@@ -18,7 +18,7 @@ public class ItemContainer implements Items {
   }
 
   @Override public void add(final Item constraint) {
-    this.constraints.add(Objects.requireNonNull(constraint, "Constraint must be not null"));
+    this.constraints.add(Objects.requireNonNull(constraint, "Item must be not null"));
   }
 
 }

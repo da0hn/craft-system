@@ -45,57 +45,60 @@ class RecipeTest {
     @Test
     @DisplayName("With null id")
     void test1() {
-      assertThrows(
+      final var exception = assertThrows(
         NullPointerException.class,
         () -> new Recipe(
           null,
           "Wooden Sword",
           ItemType.FINAL,
           1
-        ),
-        "Recipe id must be not null"
+        )
+
       );
+      assertEquals("Recipe id must be not null", exception.getMessage());
     }
 
     @Test
     @DisplayName("With null name")
     void test2() {
-      assertThrows(
+      final var exception = assertThrows(
         NullPointerException.class,
         () -> new Recipe(
           1L,
           null,
           ItemType.FINAL,
           1
-        ),
-        "Recipe name must be not null"
+        )
+
       );
+      assertEquals("Recipe name must be not null", exception.getMessage());
     }
 
     @Test
     @DisplayName("With empty name")
     void test3() {
-      assertThrows(
+      final var exception1 = assertThrows(
         RecipeValidationException.class,
         () -> new Recipe(
           1L,
           "",
           ItemType.FINAL,
           1
-        ),
-        "Recipe name must be not empty"
+        )
       );
 
-      assertThrows(
+      assertEquals("Recipe name must be not empty", exception1.getMessage());
+
+      final var exception2 = assertThrows(
         RecipeValidationException.class,
         () -> new Recipe(
           1L,
           "           ",
           ItemType.FINAL,
           1
-        ),
-        "Recipe name must be not empty"
+        )
       );
+      assertEquals("Recipe name must be not empty", exception2.getMessage());
     }
 
     @Test
@@ -109,7 +112,6 @@ class RecipeTest {
           null,
           1
         )
-
       );
       assertEquals("Recipe produced item type must be not null", exception.getMessage());
     }

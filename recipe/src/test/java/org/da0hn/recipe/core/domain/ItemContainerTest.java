@@ -5,6 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -25,11 +26,11 @@ class ItemContainerTest {
   @DisplayName("Should not add an null Item")
   void test2() {
     final var aContainer = ItemContainer.empty();
-    Assertions.assertThrows(
+    final var exception = Assertions.assertThrows(
       NullPointerException.class,
-      () -> aContainer.add(null),
-      "Item must be not null"
+      () -> aContainer.add(null)
     );
+    assertEquals("Item must be not null", exception.getMessage());
   }
 
   @Nested
