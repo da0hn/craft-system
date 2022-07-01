@@ -3,9 +3,12 @@ package org.da0hn.recipe.core.domain;
 import java.util.Objects;
 
 public class Recipe {
+
   private final Long id;
+
   private final String name;
-  private final Constraints constraints;
+
+  private final Items items;
 
   public Recipe(
     final Long id,
@@ -14,7 +17,7 @@ public class Recipe {
     this.id = Objects.requireNonNull(id, "Recipe id must be not null");
     ifNameIsEmptyThrowException(name);
     this.name = Objects.requireNonNull(name, "Recipe name must be not null");
-    this.constraints = ConstraintContainer.empty();
+    this.items = ItemContainer.empty();
   }
 
   private static void ifNameIsEmptyThrowException(final String name) {
@@ -24,6 +27,6 @@ public class Recipe {
   }
 
   public boolean hasConstraints() {
-    return !this.constraints.isEmpty();
+    return !this.items.isEmpty();
   }
 }
