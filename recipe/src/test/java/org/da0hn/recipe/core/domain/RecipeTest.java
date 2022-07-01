@@ -1,12 +1,13 @@
 package org.da0hn.recipe.core.domain;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
 @Tag("unit")
@@ -18,7 +19,9 @@ class RecipeTest {
   void test1() {
     final var recipe = new Recipe(
       1L,
-      "Wooden Sword"
+      "Wooden Sword",
+      ItemType.FINAL,
+      1
     );
     assertNotNull(recipe);
   }
@@ -28,7 +31,9 @@ class RecipeTest {
   void test2() {
     final var recipe = new Recipe(
       1L,
-      "Wooden Sword"
+      "Wooden Sword",
+      ItemType.FINAL,
+      1
     );
     assertFalse(recipe.hasConstraints());
   }
@@ -39,12 +44,14 @@ class RecipeTest {
 
     @Test
     @DisplayName("With null id")
-    void test2() {
-      Assertions.assertThrows(
+    void test1() {
+      assertThrows(
         NullPointerException.class,
         () -> new Recipe(
           null,
-          "Wooden Sword"
+          "Wooden Sword",
+          ItemType.FINAL,
+          1
         ),
         "Recipe id must be not null"
       );
@@ -52,12 +59,14 @@ class RecipeTest {
 
     @Test
     @DisplayName("With null name")
-    void test3() {
-      Assertions.assertThrows(
+    void test2() {
+      assertThrows(
         NullPointerException.class,
         () -> new Recipe(
           1L,
-          null
+          null,
+          ItemType.FINAL,
+          1
         ),
         "Recipe name must be not null"
       );
@@ -65,24 +74,74 @@ class RecipeTest {
 
     @Test
     @DisplayName("With empty name")
-    void test4() {
-      Assertions.assertThrows(
+    void test3() {
+      assertThrows(
         RecipeValidationException.class,
         () -> new Recipe(
           1L,
-          ""
+          "",
+          ItemType.FINAL,
+          1
         ),
         "Recipe name must be not empty"
       );
 
-      Assertions.assertThrows(
+      assertThrows(
         RecipeValidationException.class,
         () -> new Recipe(
           1L,
-          "           "
+          "           ",
+          ItemType.FINAL,
+          1
         ),
         "Recipe name must be not empty"
       );
+    }
+
+    @Test
+    @DisplayName("with null item type")
+    void test4() {
+      final var exception = assertThrows(
+        NullPointerException.class,
+        () -> new Recipe(
+          1L,
+          "Wooden stick",
+          null,
+          1
+        )
+
+      );
+      assertEquals("Recipe produced item type must be not null", exception.getMessage());
+    }
+
+    @Test
+    @DisplayName("with null quantity produced")
+    void test5() {
+      final var exception = assertThrows(
+        NullPointerException.class,
+        () -> new Recipe(
+          1L,
+          "Wooden stick",
+          ItemType.MATERIAL,
+          null
+        )
+      );
+      assertEquals("Recipe quantity produced must be not null", exception.getMessage());
+    }
+
+    @Test
+    @DisplayName("with quantity produced less than 1")
+    void test6() {
+      final var exception = assertThrows(
+        RecipeValidationException.class,
+        () -> new Recipe(
+          1L,
+          "Wooden stick",
+          ItemType.MATERIAL,
+          0
+        )
+      );
+      assertEquals("Recipe quantity produced must be greater than one", exception.getMessage());
     }
 
   }
