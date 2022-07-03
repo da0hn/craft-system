@@ -7,18 +7,18 @@ import java.util.Set;
 
 public class ItemContainer implements Items {
 
-  private final Set<Item> constraints = new HashSet<>();
+  private final Set<Item> items = new HashSet<>();
 
   public static Items empty() {
     return new ItemContainer();
   }
 
   @Override public boolean isEmpty() {
-    return this.constraints.isEmpty();
+    return this.items.isEmpty();
   }
 
-  @Override public void add(final Item constraint) {
-    this.constraints.add(Objects.requireNonNull(constraint, "Item must be not null"));
+  @Override public void add(final Item item) {
+    this.items.add(Objects.requireNonNull(item, "Item must be not null"));
   }
 
 }
