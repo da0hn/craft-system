@@ -18,8 +18,17 @@ class ItemContainerTest {
   @DisplayName("Should add an Constraint")
   void test1() {
     final var aContainer = ItemContainer.empty();
-    aContainer.add(new Item());
+    aContainer.add(anItem());
     assertFalse(aContainer.isEmpty());
+  }
+
+  private static Item anItem() {
+    return new Item(
+      1L,
+      ItemType.MATERIAL,
+      "Plank",
+      2
+    );
   }
 
   @Test
