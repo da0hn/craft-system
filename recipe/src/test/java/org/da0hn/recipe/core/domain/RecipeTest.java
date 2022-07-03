@@ -9,6 +9,13 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import static org.da0hn.recipe.core.shared.RecipeMessages.RECIPE_ID_NOT_NULL;
+import static org.da0hn.recipe.core.shared.RecipeMessages.RECIPE_NAME_NOT_EMPTY;
+import static org.da0hn.recipe.core.shared.RecipeMessages.RECIPE_NAME_NOT_NULL;
+import static org.da0hn.recipe.core.shared.RecipeMessages.RECIPE_QUANTITY_PRODUCED_LESS_THAN_ONE;
+import static org.da0hn.recipe.core.shared.RecipeMessages.RECIPE_QUANTITY_PRODUCED_NOT_NULL;
+import static org.da0hn.recipe.core.shared.RecipeMessages.RECIPE_TYPE_PRODUCED_NOT_NULL;
+
 
 @Tag("unit")
 @DisplayName("Test recipe")
@@ -55,7 +62,7 @@ class RecipeTest {
         )
 
       );
-      assertEquals("Recipe id must be not null", exception.getMessage());
+      assertEquals(RECIPE_ID_NOT_NULL, exception.getMessage());
     }
 
     @Test
@@ -71,7 +78,7 @@ class RecipeTest {
         )
 
       );
-      assertEquals("Recipe name must be not null", exception.getMessage());
+      assertEquals(RECIPE_NAME_NOT_NULL, exception.getMessage());
     }
 
     @Test
@@ -87,7 +94,7 @@ class RecipeTest {
         )
       );
 
-      assertEquals("Recipe name must be not empty", exception1.getMessage());
+      assertEquals(RECIPE_NAME_NOT_EMPTY, exception1.getMessage());
 
       final var exception2 = assertThrows(
         RecipeValidationException.class,
@@ -98,11 +105,11 @@ class RecipeTest {
           1
         )
       );
-      assertEquals("Recipe name must be not empty", exception2.getMessage());
+      assertEquals(RECIPE_NAME_NOT_EMPTY, exception2.getMessage());
     }
 
     @Test
-    @DisplayName("with null item type")
+    @DisplayName("With null item type")
     void test4() {
       final var exception = assertThrows(
         NullPointerException.class,
@@ -113,11 +120,11 @@ class RecipeTest {
           1
         )
       );
-      assertEquals("Recipe produced item type must be not null", exception.getMessage());
+      assertEquals(RECIPE_TYPE_PRODUCED_NOT_NULL, exception.getMessage());
     }
 
     @Test
-    @DisplayName("with null quantity produced")
+    @DisplayName("With null quantity produced")
     void test5() {
       final var exception = assertThrows(
         NullPointerException.class,
@@ -128,11 +135,11 @@ class RecipeTest {
           null
         )
       );
-      assertEquals("Recipe quantity produced must be not null", exception.getMessage());
+      assertEquals(RECIPE_QUANTITY_PRODUCED_NOT_NULL, exception.getMessage());
     }
 
     @Test
-    @DisplayName("with quantity produced less than 1")
+    @DisplayName("With quantity produced less than 1")
     void test6() {
       final var exception = assertThrows(
         RecipeValidationException.class,
@@ -143,7 +150,7 @@ class RecipeTest {
           0
         )
       );
-      assertEquals("Recipe quantity produced must be greater than one", exception.getMessage());
+      assertEquals(RECIPE_QUANTITY_PRODUCED_LESS_THAN_ONE, exception.getMessage());
     }
 
   }
