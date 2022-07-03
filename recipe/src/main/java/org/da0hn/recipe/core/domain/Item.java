@@ -46,4 +46,12 @@ public class Item {
     }
   }
 
+  public ItemType getType() {
+    return this.type;
+  }
+
+  public Integer getQuantity() {
+    return this.quantity;
+  }
+
 }

@@ -1,12 +1,14 @@
 package org.da0hn.recipe.core.domain;
 
-import org.da0hn.recipe.core.shared.RecipeMessages;
-
 import java.util.Objects;
 
+import static org.da0hn.recipe.core.domain.ItemType.FINAL;
 import static org.da0hn.recipe.core.shared.RecipeMessages.RECIPE_ID_NOT_NULL;
+import static org.da0hn.recipe.core.shared.RecipeMessages.RECIPE_ITEM_QUANTITY_LESS_THAN_ONE;
+import static org.da0hn.recipe.core.shared.RecipeMessages.RECIPE_ITEM_TYPE_NOT_FINAL;
 import static org.da0hn.recipe.core.shared.RecipeMessages.RECIPE_NAME_NOT_EMPTY;
 import static org.da0hn.recipe.core.shared.RecipeMessages.RECIPE_NAME_NOT_NULL;
+import static org.da0hn.recipe.core.shared.RecipeMessages.RECIPE_QUANTITY_PRODUCED_LESS_THAN_ONE;
 import static org.da0hn.recipe.core.shared.RecipeMessages.RECIPE_QUANTITY_PRODUCED_NOT_NULL;
 import static org.da0hn.recipe.core.shared.RecipeMessages.RECIPE_TYPE_PRODUCED_NOT_NULL;
 
@@ -40,7 +42,7 @@ public class Recipe {
 
   private void ifQuantityProducedLessThanOneThrowException() {
     if(this.quantityProduced < 1) {
-      throw new RecipeValidationException(RecipeMessages.RECIPE_QUANTITY_PRODUCED_LESS_THAN_ONE);
+      throw new RecipeValidationException(RECIPE_QUANTITY_PRODUCED_LESS_THAN_ONE);
     }
   }
 
@@ -50,11 +52,22 @@ public class Recipe {
     }
   }
 
-  public boolean hasConstraints() {
+  public boolean hasItems() {
     return !this.items.isEmpty();
   }
 
-  public void add(final Item item) {
+  public void addItem(final Item item) {
+    ifItemRecipeNotValidThrowException(item);
+    this.items.add(item);
+  }
+
+  private static void ifItemRecipeNotValidThrowException(final Item item) {
+    if(item.getType() == FINAL) {
+      throw new RecipeValidationException(RECIPE_ITEM_TYPE_NOT_FINAL);
+    }
+    if(item.getQuantity() < 1) {
+      throw new RecipeValidationException(RECIPE_ITEM_QUANTITY_LESS_THAN_ONE);
+    }
   }
 
 }

@@ -28,6 +28,10 @@ public final class RecipeMessages {
 
   public static final String RECIPE_QUANTITY_PRODUCED_LESS_THAN_ONE = "recipe.quantity-produced.less-than-one";
 
+  public static final String RECIPE_ITEM_TYPE_NOT_FINAL = "recipe.item-type.not-final";
+
+  public static final String RECIPE_ITEM_QUANTITY_LESS_THAN_ONE = "recipe.item-quantity.less-than-one";
+
 
   private RecipeMessages() {
   }
