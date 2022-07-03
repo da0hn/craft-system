@@ -1,5 +1,6 @@
 package org.da0hn.recipe.core.domain;
 
+import org.da0hn.recipe.core.shared.RecipeMessages;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -39,7 +40,7 @@ class ItemContainerTest {
       NullPointerException.class,
       () -> aContainer.add(null)
     );
-    assertEquals("Item must be not null", exception.getMessage());
+    assertEquals(RecipeMessages.ITEM_NOT_NULL, exception.getMessage());
   }
 
   @Nested

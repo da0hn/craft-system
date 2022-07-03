@@ -1,5 +1,7 @@
 package org.da0hn.recipe.core.domain;
 
+import org.da0hn.recipe.core.shared.RecipeMessages;
+
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -18,7 +20,7 @@ public class ItemContainer implements Items {
   }
 
   @Override public void add(final Item item) {
-    this.items.add(Objects.requireNonNull(item, "Item must be not null"));
+    this.items.add(Objects.requireNonNull(item, RecipeMessages.ITEM_NOT_NULL));
   }
 
 }

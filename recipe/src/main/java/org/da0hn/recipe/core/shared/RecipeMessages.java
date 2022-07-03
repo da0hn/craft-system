@@ -2,6 +2,8 @@ package org.da0hn.recipe.core.shared;
 
 public final class RecipeMessages {
 
+  public static final String ITEM_NOT_NULL = "item.not-null";
+
   public static final String ITEM_TYPE_NOT_NULL = "item.type.not-null";
 
   public static final String ITEM_ID_NOT_NULL = "item.id.not-null";
@@ -25,6 +27,7 @@ public final class RecipeMessages {
   public static final String RECIPE_NAME_NOT_EMPTY = "recipe.name.not-empty";
 
   public static final String RECIPE_QUANTITY_PRODUCED_LESS_THAN_ONE = "recipe.quantity-produced.less-than-one";
+
 
   private RecipeMessages() {
   }
