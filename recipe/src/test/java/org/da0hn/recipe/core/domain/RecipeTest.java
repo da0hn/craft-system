@@ -1,5 +1,6 @@
 package org.da0hn.recipe.core.domain;
 
+import org.da0hn.commons.core.domain.Identity;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Tag;
@@ -33,7 +34,7 @@ class RecipeTest {
 
   private static Recipe makeRecipe() {
     return new Recipe(
-      1L,
+      Identity.of(1L),
       "Wooden Sword",
       ItemType.FINAL,
       1
@@ -60,7 +61,7 @@ class RecipeTest {
     final int quantity
   ) {
     return new Item(
-      1L,
+      Identity.of(1L),
       itemType,
       "Plank",
       quantity
@@ -94,7 +95,7 @@ class RecipeTest {
       final var exception = assertThrows(
         NullPointerException.class,
         () -> new Recipe(
-          1L,
+          Identity.of(1L),
           null,
           ItemType.FINAL,
           1
@@ -110,7 +111,7 @@ class RecipeTest {
       final var exception1 = assertThrows(
         RecipeValidationException.class,
         () -> new Recipe(
-          1L,
+          Identity.empty(),
           "",
           ItemType.FINAL,
           1
@@ -122,7 +123,7 @@ class RecipeTest {
       final var exception2 = assertThrows(
         RecipeValidationException.class,
         () -> new Recipe(
-          1L,
+          Identity.empty(),
           "           ",
           ItemType.FINAL,
           1
@@ -137,7 +138,7 @@ class RecipeTest {
       final var exception = assertThrows(
         NullPointerException.class,
         () -> new Recipe(
-          1L,
+          Identity.empty(),
           "Wooden stick",
           null,
           1
@@ -152,7 +153,7 @@ class RecipeTest {
       final var exception = assertThrows(
         NullPointerException.class,
         () -> new Recipe(
-          1L,
+          Identity.empty(),
           "Wooden stick",
           ItemType.MATERIAL,
           null
@@ -167,7 +168,7 @@ class RecipeTest {
       final var exception = assertThrows(
         RecipeValidationException.class,
         () -> new Recipe(
-          1L,
+          Identity.empty(),
           "Wooden stick",
           ItemType.MATERIAL,
           0

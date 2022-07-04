@@ -1,5 +1,7 @@
 package org.da0hn.recipe.core.domain;
 
+import org.da0hn.commons.core.domain.Identity;
+
 import java.util.Objects;
 
 import static org.da0hn.recipe.core.shared.RecipeMessages.ITEM_ID_NOT_NULL;
@@ -12,7 +14,7 @@ import static org.da0hn.recipe.core.shared.RecipeMessages.ITEM_TYPE_NOT_NULL;
 
 public class Item {
 
-  private final Long id;
+  private final Identity<Long> id;
 
   private final ItemType type;
 
@@ -21,7 +23,7 @@ public class Item {
   private final Integer quantity;
 
   public Item(
-    final Long id,
+    final Identity<Long> id,
     final ItemType type,
     final String name,
     final Integer quantity

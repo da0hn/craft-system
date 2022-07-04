@@ -1,5 +1,6 @@
 package org.da0hn.recipe.core.domain;
 
+import org.da0hn.commons.core.domain.Identity;
 import org.da0hn.recipe.core.shared.RecipeMessages;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -25,7 +26,7 @@ class ItemContainerTest {
 
   private static Item anItem() {
     return new Item(
-      1L,
+      Identity.of(1L),
       ItemType.MATERIAL,
       "Plank",
       2

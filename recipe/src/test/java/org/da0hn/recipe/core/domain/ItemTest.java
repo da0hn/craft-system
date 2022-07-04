@@ -1,5 +1,6 @@
 package org.da0hn.recipe.core.domain;
 
+import org.da0hn.commons.core.domain.Identity;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -23,7 +24,7 @@ class ItemTest {
   @DisplayName("Should create an item")
   void test1() {
     final var item = new Item(
-      1L,
+      Identity.of(1L),
       ItemType.MATERIAL,
       "Plank",
       2
@@ -56,7 +57,7 @@ class ItemTest {
       final var exception = Assertions.assertThrows(
         NullPointerException.class,
         () -> new Item(
-          1L,
+          Identity.empty(),
           null,
           "Plank",
           2
@@ -71,7 +72,7 @@ class ItemTest {
       final var exception = Assertions.assertThrows(
         NullPointerException.class,
         () -> new Item(
-          1L,
+          Identity.empty(),
           ItemType.FINAL,
           null,
           2
@@ -86,7 +87,7 @@ class ItemTest {
       final var exception = Assertions.assertThrows(
         RecipeValidationException.class,
         () -> new Item(
-          1L,
+          Identity.of(1L),
           ItemType.FINAL,
           "",
           2
@@ -101,7 +102,7 @@ class ItemTest {
       final var exception = Assertions.assertThrows(
         NullPointerException.class,
         () -> new Item(
-          1L,
+          Identity.of(1L),
           ItemType.FINAL,
           "Plank",
           null
@@ -116,7 +117,7 @@ class ItemTest {
       final var exception = Assertions.assertThrows(
         RecipeValidationException.class,
         () -> new Item(
-          1L,
+          Identity.of(1L),
           ItemType.FINAL,
           "Plank",
           -1
