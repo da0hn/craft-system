@@ -5,6 +5,7 @@ import org.da0hn.recipe.core.shared.RecipeMessages;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Stream;
 
 
 public class ItemContainer implements Items {
@@ -21,6 +22,10 @@ public class ItemContainer implements Items {
 
   @Override public void add(final Item item) {
     this.items.add(Objects.requireNonNull(item, RecipeMessages.ITEM_NOT_NULL));
+  }
+
+  @Override public Stream<Item> stream() {
+    return this.items.stream();
   }
 
 }
