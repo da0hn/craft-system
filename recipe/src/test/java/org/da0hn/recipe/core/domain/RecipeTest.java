@@ -6,52 +6,83 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import static org.da0hn.recipe.core.shared.RecipeMessages.RECIPE_ID_NOT_NULL;
-import static org.da0hn.recipe.core.shared.RecipeMessages.RECIPE_ITEM_QUANTITY_LESS_THAN_ONE;
-import static org.da0hn.recipe.core.shared.RecipeMessages.RECIPE_ITEM_TYPE_NOT_FINAL;
-import static org.da0hn.recipe.core.shared.RecipeMessages.RECIPE_NAME_NOT_EMPTY;
-import static org.da0hn.recipe.core.shared.RecipeMessages.RECIPE_NAME_NOT_NULL;
-import static org.da0hn.recipe.core.shared.RecipeMessages.RECIPE_QUANTITY_PRODUCED_LESS_THAN_ONE;
-import static org.da0hn.recipe.core.shared.RecipeMessages.RECIPE_QUANTITY_PRODUCED_NOT_NULL;
-import static org.da0hn.recipe.core.shared.RecipeMessages.RECIPE_TYPE_PRODUCED_NOT_NULL;
+import static org.da0hn.recipe.core.shared.RecipeMessages.*;
 
 
 @Tag("unit")
 @DisplayName("Test recipe")
 class RecipeTest {
 
-  @Test
-  @DisplayName("Should create an recipe")
-  void test1() {
-    final var recipe = makeRecipe();
-    assertNotNull(recipe);
-  }
+  private static final String WOODEN_SWORD = "Wooden Sword";
 
-  private static RecipeModel makeRecipe() {
-    return new Recipe(
-      Identity.of(1L),
-      "Wooden Sword",
-      ItemType.FINAL,
-      1
+  private static final int QUANTITY = 1;
+
+  private static final String WOODEN_STICK = "wooden stick";
+
+  private static final String PLANK = "plank";
+
+  private static void makeRecipeWithItem(
+    final Identity<Long> id,
+    final String name,
+    final ItemType itemType,
+    final Integer quantity
+  ) {
+    new Recipe(
+      id,
+      name,
+      itemType,
+      quantity,
+      ItemContainer.of(
+        new Item(Identity.of(1L), ItemType.MATERIAL, WOODEN_STICK, 1),
+        new Item(Identity.of(2L), ItemType.MATERIAL, PLANK, 2)
+      )
     );
   }
 
   @Test
-  @DisplayName("Should create an recipe with empty constraints")
-  void test2() {
-    final var recipe = makeRecipe();
-    assertFalse(recipe.hasItems());
+  @DisplayName("Should create an recipe")
+  void test1() {
+    final var recipe = makeRecipe(
+      Identity.of(1L),
+      WOODEN_SWORD,
+      ItemType.FINAL,
+      QUANTITY,
+      ItemContainer.of(
+        new Item(Identity.of(1L), ItemType.MATERIAL, WOODEN_STICK, 1),
+        new Item(Identity.of(2L), ItemType.MATERIAL, PLANK, 2)
+      )
+    );
+    assertNotNull(recipe);
   }
+
+  private static RecipeModel makeRecipe(
+    final Identity<Long> id,
+    final String name,
+    final ItemType itemType,
+    final int quantity,
+    final Items items
+  ) {
+    return new Recipe(id, name, itemType, quantity, items);
+  }
+
 
   @Test
   @DisplayName("Should add item to recipe")
   void test3() {
-    final var recipe = makeRecipe();
+    final var recipe = makeRecipe(
+      Identity.of(1L),
+      WOODEN_SWORD,
+      ItemType.FINAL,
+      QUANTITY,
+      ItemContainer.of(
+        new Item(Identity.of(1L), ItemType.MATERIAL, WOODEN_STICK, 1),
+        new Item(Identity.of(2L), ItemType.MATERIAL, PLANK, 2)
+      )
+    );
     recipe.addItem(makeItem(ItemType.MATERIAL, 2));
     assertTrue(recipe.hasItems());
   }
@@ -60,12 +91,7 @@ class RecipeTest {
     final ItemType itemType,
     final int quantity
   ) {
-    return new Item(
-      Identity.of(1L),
-      itemType,
-      "Plank",
-      quantity
-    );
+    return new Item(Identity.of(1L), itemType, "Plank", quantity);
   }
 
 
@@ -78,13 +104,7 @@ class RecipeTest {
     void test1() {
       final var exception = assertThrows(
         NullPointerException.class,
-        () -> new Recipe(
-          null,
-          "Wooden Sword",
-          ItemType.FINAL,
-          1
-        )
-
+        () -> makeRecipeWithItem(null, WOODEN_SWORD, ItemType.FINAL, QUANTITY)
       );
       assertEquals(RECIPE_ID_NOT_NULL, exception.getMessage());
     }
@@ -94,13 +114,7 @@ class RecipeTest {
     void test2() {
       final var exception = assertThrows(
         NullPointerException.class,
-        () -> new Recipe(
-          Identity.of(1L),
-          null,
-          ItemType.FINAL,
-          1
-        )
-
+        () -> makeRecipeWithItem(Identity.of(1L), null, ItemType.FINAL, QUANTITY)
       );
       assertEquals(RECIPE_NAME_NOT_NULL, exception.getMessage());
     }
@@ -110,23 +124,18 @@ class RecipeTest {
     void test3() {
       final var exception1 = assertThrows(
         RecipeValidationException.class,
-        () -> new Recipe(
-          Identity.empty(),
-          "",
-          ItemType.FINAL,
-          1
-        )
+        () -> makeRecipeWithItem(Identity.empty(), "", ItemType.FINAL, QUANTITY)
       );
 
       assertEquals(RECIPE_NAME_NOT_EMPTY, exception1.getMessage());
 
       final var exception2 = assertThrows(
         RecipeValidationException.class,
-        () -> new Recipe(
+        () -> makeRecipeWithItem(
           Identity.empty(),
           "           ",
           ItemType.FINAL,
-          1
+          QUANTITY
         )
       );
       assertEquals(RECIPE_NAME_NOT_EMPTY, exception2.getMessage());
@@ -137,11 +146,11 @@ class RecipeTest {
     void test4() {
       final var exception = assertThrows(
         NullPointerException.class,
-        () -> new Recipe(
+        () -> makeRecipeWithItem(
           Identity.empty(),
-          "Wooden stick",
+          WOODEN_SWORD,
           null,
-          1
+          QUANTITY
         )
       );
       assertEquals(RECIPE_TYPE_PRODUCED_NOT_NULL, exception.getMessage());
@@ -152,7 +161,7 @@ class RecipeTest {
     void test5() {
       final var exception = assertThrows(
         NullPointerException.class,
-        () -> new Recipe(
+        () -> makeRecipeWithItem(
           Identity.empty(),
           "Wooden stick",
           ItemType.MATERIAL,
@@ -167,14 +176,50 @@ class RecipeTest {
     void test6() {
       final var exception = assertThrows(
         RecipeValidationException.class,
-        () -> new Recipe(
+        () -> makeRecipeWithItem(
           Identity.empty(),
           "Wooden stick",
           ItemType.MATERIAL,
           0
         )
       );
-      assertEquals(RECIPE_QUANTITY_PRODUCED_LESS_THAN_ONE, exception.getMessage());
+      assertEquals(
+        RECIPE_QUANTITY_PRODUCED_LESS_THAN_ONE,
+        exception.getMessage()
+      );
+    }
+
+    @Test
+    @DisplayName("With empty items")
+    void test7() {
+      final var exception = assertThrows(
+        RecipeValidationException.class,
+        () -> makeRecipe(
+          Identity.of(1L),
+          WOODEN_SWORD,
+          ItemType.FINAL,
+          QUANTITY,
+          ItemContainer.empty()
+        )
+      );
+      assertEquals(RECIPE_ITEMS_NOT_EMPTY, exception.getMessage());
+    }
+
+
+    @Test
+    @DisplayName("With null items")
+    void test8() {
+      final var exception = assertThrows(
+        NullPointerException.class,
+        () -> makeRecipe(
+          Identity.of(1L),
+          WOODEN_SWORD,
+          ItemType.FINAL,
+          QUANTITY,
+          null
+        )
+      );
+      assertEquals(RECIPE_ITEMS_NOT_NULL, exception.getMessage());
     }
 
   }
@@ -186,7 +231,16 @@ class RecipeTest {
     @Test
     @DisplayName("With item type final")
     void test1() {
-      final var recipe = makeRecipe();
+      final var recipe = makeRecipe(
+        Identity.of(1L),
+        WOODEN_SWORD,
+        ItemType.FINAL,
+        QUANTITY,
+        ItemContainer.of(
+          new Item(Identity.of(1L), ItemType.MATERIAL, WOODEN_STICK, 1),
+          new Item(Identity.of(2L), ItemType.MATERIAL, PLANK, 2)
+        )
+      );
       final var exception = assertThrows(
         RecipeValidationException.class,
         () -> recipe.addItem(makeItem(ItemType.FINAL, 2))
@@ -197,7 +251,16 @@ class RecipeTest {
     @Test
     @DisplayName("With item quantity less than 1")
     void test2() {
-      final var recipe = makeRecipe();
+      final var recipe = makeRecipe(
+        Identity.of(1L),
+        WOODEN_SWORD,
+        ItemType.FINAL,
+        QUANTITY,
+        ItemContainer.of(
+          new Item(Identity.of(1L), ItemType.MATERIAL, WOODEN_STICK, 1),
+          new Item(Identity.of(2L), ItemType.MATERIAL, PLANK, 2)
+        )
+      );
       final var exception = assertThrows(
         RecipeValidationException.class,
         () -> recipe.addItem(makeItem(ItemType.MATERIAL, 0))
