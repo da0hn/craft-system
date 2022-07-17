@@ -16,7 +16,7 @@ import static org.da0hn.recipe.core.shared.RecipeMessages.RECIPE_QUANTITY_PRODUC
 import static org.da0hn.recipe.core.shared.RecipeMessages.RECIPE_TYPE_PRODUCED_NOT_NULL;
 
 
-public class Recipe {
+public class Recipe implements RecipeModel {
 
   private final Identity<Long> identity;
 
@@ -55,11 +55,11 @@ public class Recipe {
     }
   }
 
-  public boolean hasItems() {
+  @Override public boolean hasItems() {
     return !this.items.isEmpty();
   }
 
-  public void addItem(final ItemModel item) {
+  @Override public void addItem(final ItemModel item) {
     ifItemRecipeNotValidThrowException(item);
     this.items.add(item);
   }
@@ -73,11 +73,11 @@ public class Recipe {
     }
   }
 
-  public Identity<Long> getIdentity() {
+  @Override public Identity<Long> getIdentity() {
     return this.identity;
   }
 
-  public Stream<ItemModel> itemsStream() {
+  @Override public Stream<ItemModel> itemStream() {
     return this.items.stream();
   }
 

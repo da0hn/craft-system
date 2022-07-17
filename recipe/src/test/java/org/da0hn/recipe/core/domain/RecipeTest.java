@@ -32,7 +32,7 @@ class RecipeTest {
     assertNotNull(recipe);
   }
 
-  private static Recipe makeRecipe() {
+  private static RecipeModel makeRecipe() {
     return new Recipe(
       Identity.of(1L),
       "Wooden Sword",
