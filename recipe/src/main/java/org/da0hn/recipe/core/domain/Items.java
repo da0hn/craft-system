@@ -7,8 +7,8 @@ public interface Items {
 
   boolean isEmpty();
 
-  void add(Item constraint);
+  void add(ItemModel constraint);
 
-  Stream<Item> stream();
+  Stream<ItemModel> stream();
 
 }

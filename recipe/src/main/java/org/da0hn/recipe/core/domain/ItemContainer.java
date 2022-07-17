@@ -10,7 +10,7 @@ import java.util.stream.Stream;
 
 public class ItemContainer implements Items {
 
-  private final Set<Item> items = new HashSet<>();
+  private final Set<ItemModel> items = new HashSet<>();
 
   public static Items empty() {
     return new ItemContainer();
@@ -20,11 +20,11 @@ public class ItemContainer implements Items {
     return this.items.isEmpty();
   }
 
-  @Override public void add(final Item item) {
+  @Override public void add(final ItemModel item) {
     this.items.add(Objects.requireNonNull(item, RecipeMessages.ITEM_NOT_NULL));
   }
 
-  @Override public Stream<Item> stream() {
+  @Override public Stream<ItemModel> stream() {
     return this.items.stream();
   }
 
