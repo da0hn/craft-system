@@ -11,8 +11,8 @@ public class Slot implements Comparable<Slot> {
     this.position = position;
   }
 
-  public static Slot newSlot(final Position position) {
-    final var label = "%s : %s".formatted(position.x(), position.y());
+  public static Slot newSlot(final String workbenchName, final Position position) {
+    final var label = "%s(%s, %s)".formatted(workbenchName, position.x(), position.y());
     return new Slot(label, position);
   }
 
@@ -26,10 +26,10 @@ public class Slot implements Comparable<Slot> {
 
   @Override
   public int compareTo(final Slot other) {
-    if (other.position.y() == this.position.y()) {
-      return this.position.x() - other.position.x();
+    if (other.position.x() == this.position.x()) {
+      return this.position.y() - other.position.y();
     }
-    return this.position.y() - other.position.y();
+    return this.position.x() - other.position.x();
   }
 
 }
