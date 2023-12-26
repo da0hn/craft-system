@@ -1,7 +1,7 @@
 package com.da0hn.craft.system.core.domain;
 
 import java.util.Collections;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -12,14 +12,14 @@ public class Workbench {
   private final Set<Slot> slots;
 
   private Workbench() {
-    this.slots = new HashSet<>(0);
+    this.slots = new LinkedHashSet<>(0);
   }
 
   public static Workbench newWorkbench(final int width, final int height) {
     final var slots = IntStream.range(0, width)
-      .mapToObj(x -> IntStream.range(0, height).mapToObj(y -> Slot.newSlot(Position.of(x, y))))
+      .mapToObj(y -> IntStream.range(0, height).mapToObj(x -> Slot.newSlot(Position.of(x, y))))
       .flatMap(Function.identity())
-      .collect(Collectors.toSet());
+      .collect(Collectors.toCollection(LinkedHashSet::new));
 
     final Workbench workbench = new Workbench();
     workbench.slots.addAll(slots);
