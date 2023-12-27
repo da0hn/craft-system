@@ -26,7 +26,10 @@ public class Workbench {
 
   private Workbench(final String name, final WorkbenchId workbenchId, final int width, final int height) {
     if (width <= 1 && height <= 1) {
-      throw new IllegalArgumentException("Workbench must be at least 2 by 2");
+      throw new IllegalArgumentException("Workbench must have at least 4 slots");
+    }
+    if (width != height) {
+      throw new IllegalArgumentException("Workbench Width and Height must be equal");
     }
     this.name = name;
     this.workbenchId = workbenchId;

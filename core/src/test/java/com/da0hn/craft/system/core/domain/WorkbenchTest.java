@@ -13,8 +13,24 @@ class WorkbenchTest {
   }
 
   @Test
-  @DisplayName("Should create Workbench with 9 slots")
+  @DisplayName("Should not create Workbench with less than 4 slots ( 2 x 2 )")
   void test1() {
+    Assertions.assertThatThrownBy(() -> Workbench.newWorkbench(new CreateWorkbenchCommand("Wooden Workbench", 1, 1)))
+      .isInstanceOf(IllegalArgumentException.class)
+      .hasMessage("Workbench must have at least 4 slots");
+  }
+
+  @Test
+  @DisplayName("Should not create Workbench with width different than height")
+  void test2() {
+    Assertions.assertThatThrownBy(() -> Workbench.newWorkbench(new CreateWorkbenchCommand("Wooden Workbench", 2, 3)))
+      .isInstanceOf(IllegalArgumentException.class)
+      .hasMessage("Workbench Width and Height must be equal");
+  }
+
+  @Test
+  @DisplayName("Should create Workbench with 9 slots")
+  void test3() {
     final var workbench = Workbench.newWorkbench(new CreateWorkbenchCommand("Iron Workbench", 3, 3));
 
     Assertions.assertThat(workbench.name()).isEqualTo("Iron Workbench");
@@ -24,7 +40,7 @@ class WorkbenchTest {
 
   @Test
   @DisplayName("Should create Workbench slots with correct positions")
-  void test2() {
+  void test4() {
     final var workbench = Workbench.newWorkbench(new CreateWorkbenchCommand("Wooden Workbench", 2, 2));
 
     Assertions.assertThat(workbench.name()).isEqualTo("Wooden Workbench");
