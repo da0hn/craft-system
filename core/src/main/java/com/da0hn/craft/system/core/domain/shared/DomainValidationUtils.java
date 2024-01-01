@@ -26,10 +26,22 @@ public final class DomainValidationUtils {
   }
 
   public static <T extends Collection<?>> T assertCollectionIsNotEmpty(final T collection, final String message) {
-    if (collection == null || !collection.isEmpty()) {
+    if (collection == null || collection.isEmpty()) {
       throw new IllegalArgumentException(message);
     }
     return collection;
+  }
+
+  public static void isTrue(final boolean condition, final String message) {
+    if (!condition) {
+      throw new IllegalArgumentException(message);
+    }
+  }
+
+  public static void isFalse(final boolean condition, final String message) {
+    if (condition) {
+      throw new IllegalArgumentException(message);
+    }
   }
 
 }
