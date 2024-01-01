@@ -1,10 +1,10 @@
 package com.da0hn.craft.system.core.domain.workbench;
 
 import com.da0hn.craft.system.core.domain.item.ItemId;
+import com.da0hn.craft.system.core.domain.shared.DomainValidationUtils;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 public class Recipe {
 
@@ -18,6 +18,8 @@ public class Recipe {
 
   private final List<RecipeItem> recipeItems;
 
+  private final RecipeStatistics recipeStats;
+
   private String description;
 
   public Recipe(
@@ -26,14 +28,16 @@ public class Recipe {
     final String name,
     final ItemId craftedItemId,
     final String description,
-    final List<RecipeItem> recipeItems
+    final List<RecipeItem> recipeItems,
+    final RecipeStatistics recipeStats
   ) {
     this.recipeId = recipeId;
     this.name = name;
     this.craftedItemId = craftedItemId;
     this.description = description;
     this.workbenchId = workbenchId;
-    this.recipeItems = Objects.requireNonNull(recipeItems);
+    this.recipeItems = DomainValidationUtils.assertCollectionIsNotEmpty(recipeItems, "Recipe items must be not empty");
+    this.recipeStats = recipeStats;
   }
 
   public static Recipe newRecipe(
@@ -42,7 +46,15 @@ public class Recipe {
     final List<RecipeItem> items,
     final ItemId craftedItemId
   ) {
-    return new Recipe(RecipeId.newInstance(), workbenchId, recipeName, craftedItemId, null, items);
+    return new Recipe(
+      RecipeId.newInstance(),
+      workbenchId,
+      recipeName,
+      craftedItemId,
+      null,
+      items,
+      RecipeStatistics.evaluateRecipeStatistics(items)
+    );
   }
 
   public void changeRecipeDescription(final String newDescription) {
@@ -71,6 +83,10 @@ public class Recipe {
 
   public ItemId craftedItemId() {
     return this.craftedItemId;
+  }
+
+  public RecipeStatistics statistics() {
+    return this.recipeStats;
   }
 
 }

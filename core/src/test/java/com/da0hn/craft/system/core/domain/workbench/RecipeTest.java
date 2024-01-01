@@ -56,6 +56,7 @@ class RecipeTest {
     final var stickId = ItemId.newInstance();
     final var stoneId = ItemId.newInstance();
     final var stoneSwordId = ItemId.newInstance();
+    final var stoneSword = "Stone Sword";
 
     final var upperStone = RecipeItem.newRecipeItem(
       stoneId,
@@ -80,22 +81,30 @@ class RecipeTest {
     );
 
     final var workbench = Workbench.newWorkbench(new CreateWorkbenchCommand("Workbench", 3, 3));
-    workbench.addRecipe(
+    final var stoneSwordRecipe = workbench.addRecipe(
       new AddRecipeCommand(
-        "Stone Sword",
+        stoneSword,
         List.of(stick, middleStone, upperStone),
         stoneSwordId
       )
     );
 
     // Recipe assertions
-    Assertions.assertThat(workbench.workbenchId()).isNotNull();
     Assertions.assertThat(workbench.recipes()).hasSize(1);
-    Assertions.assertThat(workbench.recipes()).extracting(Recipe::recipeId).isNotNull();
-    Assertions.assertThat(workbench.recipes()).extracting(Recipe::workbenchId).containsExactly(workbench.workbenchId());
-    Assertions.assertThat(workbench.recipes()).extracting(Recipe::craftedItemId).containsExactly(stoneSwordId);
-    Assertions.assertThat(workbench.recipes()).extracting(Recipe::name)
-      .containsExactlyInAnyOrder("Stone Sword");
+    Assertions.assertThat(stoneSwordRecipe.recipeId()).isNotNull();
+    Assertions.assertThat(stoneSwordRecipe.workbenchId()).isEqualTo(workbench.workbenchId());
+    Assertions.assertThat(stoneSwordRecipe.craftedItemId()).isEqualTo(stoneSwordId);
+    Assertions.assertThat(stoneSwordRecipe.name()).isEqualTo(stoneSword);
+    Assertions.assertThat(stoneSwordRecipe.description()).isNull();
+    // Recipe statistics assertions
+    Assertions.assertThat(stoneSwordRecipe.statistics()).isNotNull();
+    Assertions.assertThat(stoneSwordRecipe.statistics().items()).hasSize(2);
+    Assertions.assertThat(stoneSwordRecipe.statistics().items()).extracting(RecipeStatistics.Item::itemId)
+      .containsExactlyInAnyOrder(stickId, stoneId);
+    Assertions.assertThat(stoneSwordRecipe.statistics().items()).extracting(RecipeStatistics.Item::quantity)
+      .containsExactlyInAnyOrder(1, 2);
+    Assertions.assertThat(stoneSwordRecipe.statistics().items()).extracting(RecipeStatistics.Item::recipeItemsId)
+      .containsExactlyInAnyOrder(Set.of(stick.recipeItemId()), Set.of(middleStone.recipeItemId(), upperStone.recipeItemId()));
     // Stick assertions
     Assertions.assertThat(stick.recipeItemId()).isNotNull();
     Assertions.assertThat(stick.itemId()).isEqualTo(stickId);

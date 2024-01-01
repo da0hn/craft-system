@@ -36,4 +36,17 @@ public class RecipeItem {
     return this.manufacturingMethod;
   }
 
+  @Override
+  public int hashCode() {
+    return this.recipeItemId.hashCode();
+  }
+
+  @Override
+  public boolean equals(final Object o) {
+    if (this == o) return true;
+    if (!(o instanceof final RecipeItem that)) return false;
+
+    return this.recipeItemId.equals(that.recipeItemId);
+  }
+
 }
