@@ -1,6 +1,7 @@
-package com.da0hn.craft.system.core.domain;
+package com.da0hn.craft.system.core.domain.workbench;
 
-import com.da0hn.craft.system.core.domain.command.CreateWorkbenchCommand;
+import com.da0hn.craft.system.core.domain.workbench.commands.AddRecipeCommand;
+import com.da0hn.craft.system.core.domain.workbench.commands.CreateWorkbenchCommand;
 
 import java.util.Collections;
 import java.util.LinkedHashSet;
@@ -66,6 +67,12 @@ public class Workbench {
 
   public Set<Slot> slots() {
     return Collections.unmodifiableSet(this.slots);
+  }
+
+  public Recipe addRecipe(final AddRecipeCommand command) {
+    final var recipe = Recipe.newRecipe(command.recipeName(), this.workbenchId, command.items());
+    this.recipes.add(recipe);
+    return recipe;
   }
 
   private void loadNeighbourPositions() {

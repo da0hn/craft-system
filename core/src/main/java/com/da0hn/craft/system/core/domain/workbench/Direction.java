@@ -1,4 +1,4 @@
-package com.da0hn.craft.system.core.domain;
+package com.da0hn.craft.system.core.domain.workbench;
 
 public enum Direction {
   TOP,

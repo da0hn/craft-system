@@ -1,6 +1,9 @@
-package com.da0hn.craft.system.core.domain;
+package com.da0hn.craft.system.core.domain.workbench;
 
-import com.da0hn.craft.system.core.domain.command.CreateWorkbenchCommand;
+import com.da0hn.craft.system.core.domain.workbench.commands.CreateWorkbenchCommand;
+import com.da0hn.craft.system.core.domain.workbench.Position;
+import com.da0hn.craft.system.core.domain.workbench.Slot;
+import com.da0hn.craft.system.core.domain.workbench.Workbench;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

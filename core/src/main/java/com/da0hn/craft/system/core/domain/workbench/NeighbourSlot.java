@@ -1,8 +1,11 @@
-package com.da0hn.craft.system.core.domain;
+package com.da0hn.craft.system.core.domain.workbench;
+
+import java.util.Objects;
 
 public record NeighbourSlot(Slot slot, Direction direction) {
 
   public static NeighbourSlot newNeighbourAtLeft(final Slot slot) {
+    Objects.requireNonNull(slot, "Slot cannot be null");
     return new NeighbourSlot(slot, Direction.LEFT);
   }
 

@@ -1,5 +1,6 @@
-package com.da0hn.craft.system.core.domain;
+package com.da0hn.craft.system.core.domain.workbench;
 
+import com.da0hn.craft.system.core.domain.workbench.Position;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
