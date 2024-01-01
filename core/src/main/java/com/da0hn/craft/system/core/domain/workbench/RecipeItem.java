@@ -4,25 +4,36 @@ import com.da0hn.craft.system.core.domain.item.ItemId;
 
 public class RecipeItem {
 
+  private final RecipeItemId recipeItemId;
+
   private final ItemId itemId;
 
-  private final String name;
+  private final ManufacturingMethod manufacturingMethod;
 
-  public RecipeItem(final ItemId itemId, final String name) {
+  public RecipeItem(
+    final RecipeItemId recipeItemId,
+    final ItemId itemId,
+    final ManufacturingMethod manufacturingMethod
+  ) {
+    this.recipeItemId = recipeItemId;
     this.itemId = itemId;
-    this.name = name;
+    this.manufacturingMethod = manufacturingMethod;
   }
 
-  public static RecipeItem newRecipeItem(final ItemId itemId, final String name) {
-    return new RecipeItem(itemId, name);
+  public static RecipeItem newRecipeItem(final ItemId itemId, final ManufacturingMethod manufacturingMethod) {
+    return new RecipeItem(RecipeItemId.newInstance(), itemId, manufacturingMethod);
+  }
+
+  public RecipeItemId recipeItemId() {
+    return this.recipeItemId;
   }
 
   public ItemId itemId() {
     return this.itemId;
   }
 
-  public String name() {
-    return this.name;
+  public ManufacturingMethod manufacturingMethod() {
+    return this.manufacturingMethod;
   }
 
 }

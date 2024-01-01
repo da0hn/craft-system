@@ -1,5 +1,7 @@
 package com.da0hn.craft.system.core.domain.workbench;
 
+import com.da0hn.craft.system.core.domain.item.ItemId;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -12,6 +14,8 @@ public class Recipe {
 
   private final String name;
 
+  private final ItemId craftedItemId;
+
   private final List<RecipeItem> recipeItems;
 
   private String description;
@@ -20,18 +24,25 @@ public class Recipe {
     final RecipeId recipeId,
     final WorkbenchId workbenchId,
     final String name,
+    final ItemId craftedItemId,
     final String description,
     final List<RecipeItem> recipeItems
   ) {
     this.recipeId = recipeId;
     this.name = name;
+    this.craftedItemId = craftedItemId;
     this.description = description;
     this.workbenchId = workbenchId;
     this.recipeItems = Objects.requireNonNull(recipeItems);
   }
 
-  public static Recipe newRecipe(final String recipeName, final WorkbenchId workbenchId, final List<RecipeItem> items) {
-    return new Recipe(RecipeId.newInstance(), workbenchId, recipeName, null, items);
+  public static Recipe newRecipe(
+    final String recipeName,
+    final WorkbenchId workbenchId,
+    final List<RecipeItem> items,
+    final ItemId craftedItemId
+  ) {
+    return new Recipe(RecipeId.newInstance(), workbenchId, recipeName, craftedItemId, null, items);
   }
 
   public void changeRecipeDescription(final String newDescription) {
@@ -56,6 +67,10 @@ public class Recipe {
 
   public List<RecipeItem> recipeItems() {
     return Collections.unmodifiableList(this.recipeItems);
+  }
+
+  public ItemId craftedItemId() {
+    return this.craftedItemId;
   }
 
 }

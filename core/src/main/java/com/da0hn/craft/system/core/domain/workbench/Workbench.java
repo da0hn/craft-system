@@ -70,7 +70,7 @@ public class Workbench {
   }
 
   public Recipe addRecipe(final AddRecipeCommand command) {
-    final var recipe = Recipe.newRecipe(command.recipeName(), this.workbenchId, command.items());
+    final var recipe = Recipe.newRecipe(command.recipeName(), this.workbenchId, command.items(), command.craftedItemId());
     this.recipes.add(recipe);
     return recipe;
   }
